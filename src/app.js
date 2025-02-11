@@ -3,7 +3,9 @@ const app=express();
 
 
 
-app.get("/abc",(req,res)=>{
+app.get("/abc/:id/:lang/:pw",(req,res)=>{
+    console.log(req.params);
+    
     res.send({firstname:"maguire",lastname:"goat"})
 })
 
