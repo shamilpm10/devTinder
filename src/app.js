@@ -3,36 +3,27 @@ const app=express();
 
 
 
-app.get("/abc/:id/:lang/:pw",(req,res)=>{
-    console.log(req.params);
-    
-    res.send({firstname:"maguire",lastname:"goat"})
-})
-
-// app.get("/user/abc",(req,res)=>{
-//     res.send("userabc")
-// })
-
-app.delete("/user",(req,res)=>{
-    res.send("data deleted")
-})
-// app.use("/user",(req,res)=>{
-//     res.send("hellooo")
-// })
-
-app.post("/user",(req,res)=>{
-    //data saved to database
-    res.send("data saved successfully to database")
-})
-
-
-
-
-
+app.use("/abc",
+    (req,res,next)=>{
+        console.log("route handler 1");
+         //res.send("response 1")
+        next()
+    },
+    (req,res,next)=>{
+        console.log("route handler 2");
+        //res.send("response 2")
+        next()
+    },
+    (req,res,next)=>{
+        console.log("route handler 3");
+        res.send("response 3")
+        //next()
+    },
+)
 
 
 
 app.listen(3000,()=>{
-    console.log("server iistening on port 7777");
+    console.log("server iistening on port 3000");
     
 })
