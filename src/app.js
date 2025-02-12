@@ -1,27 +1,18 @@
 const express=require("express")
+const {adminAuth}=require("./middlewares/auth")
 const app=express();
 
+app.use("/admin",adminAuth)
 
+app.get("/admin/getAllData",(req,res,next)=>{
+    //logic to fetch the data from the database
+    res.send("got all the data")
+})
 
-app.use("/abc",
-    (req,res,next)=>{
-        console.log("route handler 1");
-         //res.send("response 1")
-        next()
-    },
-    (req,res,next)=>{
-        console.log("route handler 2");
-        //res.send("response 2")
-        next()
-    },
-    (req,res,next)=>{
-        console.log("route handler 3");
-        res.send("response 3")
-        //next()
-    },
-)
-
-
+app.get("/admin/deleteData",(req,res)=>{
+    //logic to delete
+    res.send("deleted all the datas")
+})
 
 app.listen(3000,()=>{
     console.log("server iistening on port 3000");
