@@ -2,16 +2,32 @@ const express=require("express")
 const {adminAuth}=require("./middlewares/auth")
 const app=express();
 
-app.use("/admin",adminAuth)
-
 app.get("/admin/getAllData",(req,res,next)=>{
-    //logic to fetch the data from the database
-    res.send("got all the data")
+  // try{
+    console.log("enetred to /getalldata");
+    
+    throw new Error("thettt")
+    res.send("sent succesfylly")  
+//    }
+//    catch(err){
+//     res.status(500).send("error occured in catch")
+//    }
+      
 })
 
-app.get("/admin/deleteData",(req,res)=>{
-    //logic to delete
-    res.send("deleted all the datas")
+app.use("/admin",(req,res,next)=>{
+    console.log("enetred to admin");
+     res.send("admin data")
+    //throw new Error("thettt")
+    // res.status(500).send("admin error")    
+ })
+
+app.use("/",(err,req,res,next)=>{
+    
+    console.log("enetred to slash/");
+    res.status(500).send("error occured")
+
+//res.send("chakaaaa")
 })
 
 app.listen(3000,()=>{
