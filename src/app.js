@@ -1,36 +1,36 @@
 const express=require("express")
-const {adminAuth}=require("./middlewares/auth")
+const connectDB=require("./config/database")
+const User=require("./models/user")
+//const {adminAuth}=require("./middlewares/auth")
 const app=express();
 
-app.get("/admin/getAllData",(req,res,next)=>{
-  // try{
-    console.log("enetred to /getalldata");
+app.post("/signup",async(req,res)=>{
+    const userObj={
+        firstName:"martin",
+        lastName:"odegaard",
+        email:"martin@odegaard.com",
+        password:"ozilregen",
+        age:25
+    }
+    const user=new User(userObj)
+    try{
+        await user.save();
+        res.send("data added successfully")
+    } catch(err){
+        res.status(400).send("error saving  the data"+err.message)
+    }
     
-    throw new Error("thettt")
-    res.send("sent succesfylly")  
-//    }
-//    catch(err){
-//     res.status(500).send("error occured in catch")
-//    }
-      
+
+
 })
 
-app.use("/admin",(req,res,next)=>{
-    console.log("enetred to admin");
-     res.send("admin data")
-    //throw new Error("thettt")
-    // res.status(500).send("admin error")    
- })
-
-app.use("/",(err,req,res,next)=>{
-    
-    console.log("enetred to slash/");
-    res.status(500).send("error occured")
-
-//res.send("chakaaaa")
+connectDB().then(()=>{
+    console.log("database connection established");
+    app.listen(3000,()=>{
+        console.log("server iistening on port 3000");
+        
+    })
 })
+.catch((err)=>console.error("database connection failed")
+)
 
-app.listen(3000,()=>{
-    console.log("server iistening on port 3000");
-    
-})
