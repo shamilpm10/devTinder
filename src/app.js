@@ -4,15 +4,11 @@ const User=require("./models/user")
 //const {adminAuth}=require("./middlewares/auth")
 const app=express();
 
+app.use(express.json())
+
 app.post("/signup",async(req,res)=>{
-    const userObj={
-        firstName:"martin",
-        lastName:"odegaard",
-        email:"martin@odegaard.com",
-        password:"ozilregen",
-        age:25
-    }
-    const user=new User(userObj)
+    
+    const user=new User(req.body)
     try{
         await user.save();
         res.send("data added successfully")
