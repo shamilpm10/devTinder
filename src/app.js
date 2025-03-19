@@ -13,7 +13,7 @@ app.post("/signup",async(req,res)=>{
         await user.save();
         res.send("data added successfully")
     } catch(err){
-        res.status(400).send("error saving  the data"+err.message)
+        res.status(400).send("error saving  the data "+err.message)
     }
     
 
@@ -51,6 +51,56 @@ app.get("/user",async(req,res)=>{
         res.status(400).send("something went wrong"+err.messsge)
     }
 
+})
+
+app.delete("/user",async (req,res)=>{
+    const id=req.body._id;
+    try{
+        const user=await User.findByIdAndDelete(id)
+        //console.log(user);
+        
+        res.send("user deletd successfully")
+    } catch(err){
+        res.status(400).send("something went wrong in deleting"+err.messsge)
+
+    }
+})
+
+app.patch("/user/:userId",async(req,res)=>{
+    const id=req.params?.userId
+    const data=req.body
+    try{
+        
+        const allowedUpdate= ["age","gender","photoUrl"]
+        const isUpdate= Object.keys(data).every((k)=>allowedUpdate.includes(k))
+        if(!isUpdate) {
+            throw new Error("update not allowed")
+        }
+        const user= await User.findByIdAndUpdate(id,data,{returnDocument:"after",runValidators:true})
+        //console.log(user);
+        
+        res.send("data updated successfully")
+    }
+    catch(err){
+        res.status(400).send(" update failed "+ err.messsge)
+
+    }
+    
+})
+
+app.patch("/user1",async(req,res)=>{
+    try{
+        const emailId=req.body.email
+        const user= await User.findOneAndUpdate({email:emailId},req.body,{returnDocument:"before"})
+        console.log(user);
+        
+        res.send("data updated successfully")
+    }
+    catch(err){
+        res.status(400).send("something went wrong in deleting"+err.messsge)
+
+    }
+    
 })
 
 connectDB().then(()=>{
