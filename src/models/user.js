@@ -49,12 +49,16 @@ const userSchema= new mongoose.Schema({
     },
     photoUrl:{
         type:String,
-        default:"asdfgkjkj.png",
+        default:"https://thumb.ac-illust.com/c7/c7badbfa746c5372783179470aa9ef2b_t.jpeg",
         validate(value){
             if(!validator.isURL(value)){
                 throw new Error ("url is not valid"+value) 
             }
         }
+    },
+    about:{
+        type:String,
+        
     }
 },
 {
@@ -71,7 +75,7 @@ userSchema.methods.validatePassword= async function(stringPassword){
 
 userSchema.methods.getJWT= async function(){
     const user=this;
-    const token= await jwt.sign({_id:user._id},"namasteNODE007$123",{expiresIn:"1d"})
+    const token= await jwt.sign({_id:user._id},"namasteNODE007$123")
     return token;
 }
 
